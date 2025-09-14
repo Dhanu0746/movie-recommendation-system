@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendation System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-star"></i> Movie Recommendation System</h1>
+            <p>Discover your next favorite movie with AI-powered recommendations</p>
+        </header>
+
+        <div class="main-content">
+            <!-- User Selection -->
+            <div class="section">
+                <h2><i class="fas fa-user"></i> Select User</h2>
+                <div class="user-selection">
+                    <select id="userSelect" class="select-input">
+                        <option value="">Choose a user...</option>
+                    </select>
+                    <button id="loadUserBtn" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Load User
+                    </button>
+                </div>
+            </div>
+
+            <!-- User Profile -->
+            <div id="userProfile" class="section hidden">
+                <h2><i class="fas fa-user-circle"></i> User Profile</h2>
+                <div id="userInfo" class="user-info"></div>
+                <div id="userRatings" class="user-ratings"></div>
+            </div>
+
+            <!-- Recommendation Type Selection -->
+            <div id="recTypeSection" class="section hidden">
+                <h2><i class="fas fa-cogs"></i> Recommendation Type</h2>
+                <div class="rec-type-buttons">
+                    <button class="btn btn-secondary rec-type-btn active" data-type="hybrid">
+                        <i class="fas fa-magic"></i> Hybrid
+                    </button>
+                    <button class="btn btn-secondary rec-type-btn" data-type="collaborative">
+                        <i class="fas fa-users"></i> Collaborative
+                    </button>
+                    <button class="btn btn-secondary rec-type-btn" data-type="content">
+                        <i class="fas fa-tags"></i> Content-Based
+                    </button>
+                </div>
+            </div>
+
+            <!-- Recommendations -->
+            <div id="recommendations" class="section hidden">
+                <h2><i class="fas fa-lightbulb"></i> Recommendations</h2>
+                <div id="recLoading" class="loading hidden">
+                    <i class="fas fa-spinner fa-spin"></i> Generating recommendations...
+                </div>
+                <div id="recResults" class="recommendations-grid"></div>
+            </div>
+
+            <!-- Similar Items -->
+            <div id="similarItems" class="section hidden">
+                <h2><i class="fas fa-heart"></i> Similar Movies</h2>
+                <div id="similarLoading" class="loading hidden">
+                    <i class="fas fa-spinner fa-spin"></i> Finding similar movies...
+                </div>
+                <div id="similarResults" class="recommendations-grid"></div>
+            </div>
+
+            <!-- Add Rating -->
+            <div id="addRatingSection" class="section hidden">
+                <h2><i class="fas fa-plus"></i> Add Rating</h2>
+                <div class="rating-form">
+                    <select id="itemSelect" class="select-input">
+                        <option value="">Select a movie...</option>
+                    </select>
+                    <div class="rating-input">
+                        <label>Rating:</label>
+                        <div class="star-rating">
+                            <input type="radio" id="star5" name="rating" value="5">
+                            <label for="star5"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star4" name="rating" value="4">
+                            <label for="star4"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star3" name="rating" value="3">
+                            <label for="star3"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star2" name="rating" value="2">
+                            <label for="star2"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star1" name="rating" value="1">
+                            <label for="star1"><i class="fas fa-star"></i></label>
+                        </div>
+                    </div>
+                    <button id="addRatingBtn" class="btn btn-success">
+                        <i class="fas fa-plus"></i> Add Rating
+                    </button>
+                </div>
+            </div>
+
+            <!-- Train on Real Data -->
+            <div class="section">
+                <h2><i class="fas fa-database"></i> Train on Real Dataset</h2>
+                <div class="training-section">
+                    <p>Click the button below to train the system on the real MovieLens dataset (100K+ ratings):</p>
+                    <button id="trainRealDataBtn" class="btn btn-primary" style="font-size: 1.2rem; padding: 15px 30px;">
+                        <i class="fas fa-download"></i> Train on Real MovieLens Data
+                    </button>
+                    <div id="trainingStatus" class="training-status hidden">
+                        <div id="trainingProgress" class="training-progress">
+                            <i class="fas fa-spinner fa-spin"></i> Training in progress...
+                        </div>
+                        <div id="trainingResults" class="training-results hidden"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Stats -->
+            <div class="section">
+                <h2><i class="fas fa-chart-bar"></i> System Statistics</h2>
+                <div id="systemStats" class="stats-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
