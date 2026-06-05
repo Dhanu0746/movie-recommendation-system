@@ -34,6 +34,6 @@ echo.
 echo Press Ctrl+C to stop the server
 echo.
 
-python app_with_training.py
+python app.py
 
 pause

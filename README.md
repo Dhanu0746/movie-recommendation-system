@@ -6,17 +6,24 @@
 
 A comprehensive movie recommendation system that implements multiple recommendation algorithms including collaborative filtering, content-based filtering, and hybrid approaches. Built with Flask and featuring a beautiful web interface.
 
-## ✨ Features
+## ✨ Core Machine Learning Features
 
-- **🤝 Collaborative Filtering**: User-based and item-based recommendations using cosine similarity
-- **🏷️ Content-Based Filtering**: Recommendations based on movie features (genre, director, description)
-- **🔀 Hybrid Approach**: Combines multiple recommendation strategies for optimal accuracy
-- **🌐 REST API**: Complete API with endpoints for users, movies, ratings, and recommendations
-- **💻 Modern Web Interface**: Beautiful, responsive UI with real-time interactions
-- **📊 Real-time Statistics**: System performance metrics and usage analytics
-- **⭐ Interactive Rating System**: Add and manage user ratings with star inputs
-- **🎯 Multiple Recommendation Types**: Switch between different algorithms
-- **📱 Responsive Design**: Works perfectly on desktop and mobile devices
+- **🔀 Hybrid Recommendation Engine:** Combines Collaborative Filtering, Content-Based Filtering, and Popularity-Based Ranking for superior accuracy.
+- **🧠 Personalized User Embeddings:** Utilizes advanced matrix factorization techniques (SVD via the Surprise library) to learn complex user preferences.
+- **📈 Recommendation Accuracy & Evaluation:** Implements standard ML evaluation metrics (RMSE, Precision@K, Recall@K) to tune performance.
+- **🔍 Smart NLP Semantic Search:** Upgrades search functionality to semantic search using natural language via TF-IDF vectorization and cosine similarity.
+- **🎭 Sentiment-Aware Recommendations:** Processes IMDb/TMDB reviews through VADER/TextBlob to determine sentiment scores for mood-aware recommendations.
+- **⚡ Real-Time Dynamic Updates:** Instantly recalculates and updates user recommendations upon new ratings or interactions.
+- **🔥 Trending & Popularity Engine:** A dynamic engine calculating real-time trends such as "Trending Today" and "Most Watched".
+- **💡 Explainable AI (XAI):** Enhances user trust by providing clear, human-readable reasons for every recommendation.
+- **❄️ Cold Start Problem Resolution:** Implements strategic onboarding and dynamic popularity fallbacks for brand new users.
+
+## 🎨 Premium UI/UX Architecture
+
+- **🏠 Home Page:** Features a dynamic Hero Section, Smart Search Bar, Trending Carousel, and visually distinct Genre Categories.
+- **👤 User Dashboard:** Includes Watch History, intuitive Preference Insights, and a user-facing Recommendation Accuracy score.
+- **📈 Admin & Analytics Dashboard:** Built with Chart.js/Recharts featuring Dark/Light themes, tracking key metrics like active users and usage analytics.
+- **🎬 Movie Detail Page:** Displays high-resolution posters, "AI Recommendation Reason" insights, Similar Content carousels, and sentiment score trends.
 
 ## 🎥 Demo
 

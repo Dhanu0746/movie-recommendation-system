@@ -1,127 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recommendation System</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CineAI – AI-Powered Movie Recommendations</title>
+  <meta name="description" content="Discover movies with AI-powered hybrid recommendations, NLP semantic search, and sentiment analysis." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="/static/css/style.css" />
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1><i class="fas fa-star"></i> Movie Recommendation System</h1>
-            <p>Discover your next favorite movie with AI-powered recommendations</p>
-        </header>
 
-        <div class="main-content">
-            <!-- User Selection -->
-            <div class="section">
-                <h2><i class="fas fa-user"></i> Select User</h2>
-                <div class="user-selection">
-                    <select id="userSelect" class="select-input">
-                        <option value="">Choose a user...</option>
-                    </select>
-                    <button id="loadUserBtn" class="btn btn-primary">
-                        <i class="fas fa-search"></i> Load User
-                    </button>
-                </div>
-            </div>
+<!-- ═══════════════════════════ NAV ═══════════════════════════ -->
+<nav class="navbar" id="navbar">
+  <div class="nav-brand">
+    <span class="brand-icon">🎬</span>
+    <span class="brand-name">CineAI</span>
+    <span class="brand-badge">AI</span>
+  </div>
+  <div class="nav-links">
+    <a href="#home"      class="nav-link active" data-section="home">Home</a>
+    <a href="#search"    class="nav-link" data-section="search">Search</a>
+    <a href="#dashboard" class="nav-link" data-section="dashboard">My Profile</a>
+    <a href="#admin"     class="nav-link" data-section="admin">Analytics</a>
+  </div>
+  <div class="nav-actions">
+    <button id="themeToggle" class="theme-btn" title="Toggle theme">🌙</button>
+    <select id="globalUserSelect" class="user-select-nav">
+      <option value="">Select User</option>
+    </select>
+  </div>
+</nav>
 
-            <!-- User Profile -->
-            <div id="userProfile" class="section hidden">
-                <h2><i class="fas fa-user-circle"></i> User Profile</h2>
-                <div id="userInfo" class="user-info"></div>
-                <div id="userRatings" class="user-ratings"></div>
-            </div>
+<!-- ═══════════════════════════ HERO ═══════════════════════════ -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge">✨ AI-Powered Recommendations</div>
+    <h1 class="hero-title">
+      Discover Movies<br/>
+      <span class="gradient-text">Made For You</span>
+    </h1>
+    <p class="hero-subtitle">
+      Hybrid AI engine combining collaborative filtering, SVD matrix factorization,
+      and NLP semantic search to find your perfect next watch.
+    </p>
+    <div class="hero-search">
+      <div class="search-wrapper" id="search">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="heroSearchInput" class="search-input"
+               placeholder="Search 'space sci-fi', 'crime thriller', 'epic adventure'…" />
+        <button id="heroSearchBtn" class="search-btn">Search</button>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-chip" id="statUsers"><span class="stat-num">—</span> Users</div>
+      <div class="stat-chip" id="statMovies"><span class="stat-num">—</span> Movies</div>
+      <div class="stat-chip" id="statRatings"><span class="stat-num">—</span> Ratings</div>
+    </div>
+  </div>
+  <div class="hero-orbs">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+  </div>
+</section>
 
-            <!-- Recommendation Type Selection -->
-            <div id="recTypeSection" class="section hidden">
-                <h2><i class="fas fa-cogs"></i> Recommendation Type</h2>
-                <div class="rec-type-buttons">
-                    <button class="btn btn-secondary rec-type-btn active" data-type="hybrid">
-                        <i class="fas fa-magic"></i> Hybrid
-                    </button>
-                    <button class="btn btn-secondary rec-type-btn" data-type="collaborative">
-                        <i class="fas fa-users"></i> Collaborative
-                    </button>
-                    <button class="btn btn-secondary rec-type-btn" data-type="content">
-                        <i class="fas fa-tags"></i> Content-Based
-                    </button>
-                </div>
-            </div>
+<!-- ═══════════════════════════ SEARCH RESULTS ═══════════════════════════ -->
+<section class="section search-results-section hidden" id="searchResults">
+  <div class="container">
+    <div class="section-header">
+      <h2>🔍 Search Results</h2>
+      <span class="results-tag" id="searchResultsTag"></span>
+    </div>
+    <div class="cards-grid" id="searchResultsGrid"></div>
+  </div>
+</section>
 
-            <!-- Recommendations -->
-            <div id="recommendations" class="section hidden">
-                <h2><i class="fas fa-lightbulb"></i> Recommendations</h2>
-                <div id="recLoading" class="loading hidden">
-                    <i class="fas fa-spinner fa-spin"></i> Generating recommendations...
-                </div>
-                <div id="recResults" class="recommendations-grid"></div>
-            </div>
+<!-- ═══════════════════════════ TRENDING ═══════════════════════════ -->
+<section class="section" id="trendingSection">
+  <div class="container">
+    <div class="section-header">
+      <h2>🔥 Trending Now</h2>
+      <div class="genre-pills" id="genrePills"></div>
+    </div>
+    <div class="carousel-wrapper">
+      <button class="carousel-btn prev" id="trendPrev">‹</button>
+      <div class="carousel" id="trendingCarousel"></div>
+      <button class="carousel-btn next" id="trendNext">›</button>
+    </div>
+  </div>
+</section>
 
-            <!-- Similar Items -->
-            <div id="similarItems" class="section hidden">
-                <h2><i class="fas fa-heart"></i> Similar Movies</h2>
-                <div id="similarLoading" class="loading hidden">
-                    <i class="fas fa-spinner fa-spin"></i> Finding similar movies...
-                </div>
-                <div id="similarResults" class="recommendations-grid"></div>
-            </div>
+<!-- ═══════════════════════════ AI RECOMMENDATIONS ═══════════════════════════ -->
+<section class="section ai-section" id="aiSection">
+  <div class="container">
+    <div class="section-header">
+      <h2>🤖 AI Recommendations For You</h2>
+      <div class="rec-type-switcher">
+        <button class="rec-type-btn active" data-type="hybrid">Hybrid</button>
+        <button class="rec-type-btn" data-type="collaborative">Collaborative</button>
+        <button class="rec-type-btn" data-type="content">Content</button>
+        <button class="rec-type-btn" data-type="svd">SVD</button>
+      </div>
+    </div>
+    <div class="ai-empty-state" id="aiEmptyState">
+      <div class="empty-icon">👤</div>
+      <p>Select a user from the navigation bar to see personalised AI recommendations</p>
+    </div>
+    <div class="cards-grid hidden" id="recsGrid"></div>
+  </div>
+</section>
 
-            <!-- Add Rating -->
-            <div id="addRatingSection" class="section hidden">
-                <h2><i class="fas fa-plus"></i> Add Rating</h2>
-                <div class="rating-form">
-                    <select id="itemSelect" class="select-input">
-                        <option value="">Select a movie...</option>
-                    </select>
-                    <div class="rating-input">
-                        <label>Rating:</label>
-                        <div class="star-rating">
-                            <input type="radio" id="star5" name="rating" value="5">
-                            <label for="star5"><i class="fas fa-star"></i></label>
-                            <input type="radio" id="star4" name="rating" value="4">
-                            <label for="star4"><i class="fas fa-star"></i></label>
-                            <input type="radio" id="star3" name="rating" value="3">
-                            <label for="star3"><i class="fas fa-star"></i></label>
-                            <input type="radio" id="star2" name="rating" value="2">
-                            <label for="star2"><i class="fas fa-star"></i></label>
-                            <input type="radio" id="star1" name="rating" value="1">
-                            <label for="star1"><i class="fas fa-star"></i></label>
-                        </div>
-                    </div>
-                    <button id="addRatingBtn" class="btn btn-success">
-                        <i class="fas fa-plus"></i> Add Rating
-                    </button>
-                </div>
-            </div>
+<!-- ═══════════════════════════ ALL MOVIES ═══════════════════════════ -->
+<section class="section" id="moviesSection">
+  <div class="container">
+    <div class="section-header">
+      <h2>🎬 All Movies</h2>
+      <div class="genre-filter-row" id="genreFilterRow"></div>
+    </div>
+    <div class="cards-grid" id="allMoviesGrid"></div>
+  </div>
+</section>
 
-            <!-- Train on Real Data -->
-            <div class="section">
-                <h2><i class="fas fa-database"></i> Train on Real Dataset</h2>
-                <div class="training-section">
-                    <p>Click the button below to train the system on the real MovieLens dataset (100K+ ratings):</p>
-                    <button id="trainRealDataBtn" class="btn btn-primary" style="font-size: 1.2rem; padding: 15px 30px;">
-                        <i class="fas fa-download"></i> Train on Real MovieLens Data
-                    </button>
-                    <div id="trainingStatus" class="training-status hidden">
-                        <div id="trainingProgress" class="training-progress">
-                            <i class="fas fa-spinner fa-spin"></i> Training in progress...
-                        </div>
-                        <div id="trainingResults" class="training-results hidden"></div>
-                    </div>
-                </div>
-            </div>
+<!-- ═══════════════════════════ USER DASHBOARD ═══════════════════════════ -->
+<section class="section dashboard-section hidden" id="dashboard">
+  <div class="container">
+    <div class="section-header">
+      <h2>👤 User Dashboard</h2>
+    </div>
+    <div class="dashboard-grid">
 
-            <!-- System Stats -->
-            <div class="section">
-                <h2><i class="fas fa-chart-bar"></i> System Statistics</h2>
-                <div id="systemStats" class="stats-grid"></div>
-            </div>
+      <div class="dash-card profile-card">
+        <h3>Profile</h3>
+        <div class="profile-avatar" id="profileAvatar">—</div>
+        <div class="profile-name"  id="profileName">No user selected</div>
+        <div class="profile-email" id="profileEmail"></div>
+        <div class="profile-stats">
+          <div class="p-stat"><span id="profileRatingCount">0</span><small>Ratings</small></div>
+          <div class="p-stat"><span id="profileAvgRating">0</span><small>Avg ★</small></div>
         </div>
+      </div>
+
+      <div class="dash-card genres-card">
+        <h3>Favourite Genres</h3>
+        <canvas id="genreChart" height="180"></canvas>
+      </div>
+
+      <div class="dash-card rate-card">
+        <h3>Rate a Movie</h3>
+        <select id="rateMovieSelect" class="dash-select"></select>
+        <div class="star-row" id="starRow">
+          <span class="star" data-val="1">★</span>
+          <span class="star" data-val="2">★</span>
+          <span class="star" data-val="3">★</span>
+          <span class="star" data-val="4">★</span>
+          <span class="star" data-val="5">★</span>
+        </div>
+        <button id="submitRatingBtn" class="btn-primary">Submit Rating</button>
+        <div id="ratingMsg" class="rating-msg"></div>
+      </div>
+
+      <div class="dash-card history-card">
+        <h3>Watch History</h3>
+        <div class="history-list" id="watchHistoryList"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ ADMIN ANALYTICS ═══════════════════════════ -->
+<section class="section admin-section hidden" id="admin">
+  <div class="container">
+    <div class="section-header">
+      <h2>📈 Analytics Dashboard</h2>
+      <button id="runMetricsBtn" class="btn-outline">Run Evaluation</button>
     </div>
 
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <div class="metrics-strip" id="metricsStrip">
+      <div class="metric-card"><div class="metric-val" id="mUsers">—</div><div class="metric-label">Total Users</div></div>
+      <div class="metric-card"><div class="metric-val" id="mMovies">—</div><div class="metric-label">Total Movies</div></div>
+      <div class="metric-card"><div class="metric-val" id="mRatings">—</div><div class="metric-label">Total Ratings</div></div>
+      <div class="metric-card"><div class="metric-val" id="mAvg">—</div><div class="metric-label">Avg Rating</div></div>
+      <div class="metric-card"><div class="metric-val" id="mRmse">—</div><div class="metric-label">RMSE</div></div>
+      <div class="metric-card"><div class="metric-val" id="mPrec">—</div><div class="metric-label">Precision@5</div></div>
+      <div class="metric-card"><div class="metric-val" id="mRec">—</div><div class="metric-label">Recall@5</div></div>
+      <div class="metric-card"><div class="metric-val" id="mF1">—</div><div class="metric-label">F1@5</div></div>
+    </div>
+
+    <div class="charts-grid">
+      <div class="chart-card">
+        <h3>Genre Distribution</h3>
+        <canvas id="adminGenreChart" height="260"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3>Most Rated Movies</h3>
+        <canvas id="adminTopMoviesChart" height="260"></canvas>
+      </div>
+    </div>
+
+    <div class="section-header" style="margin-top:2rem;">
+      <h3>🎬 Most Rated Movies</h3>
+    </div>
+    <div class="cards-grid" id="adminTopMoviesGrid"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ MOVIE DETAIL MODAL ═══════════════════════════ -->
+<div class="modal-overlay hidden" id="movieModal">
+  <div class="modal-card" id="movieModalCard">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ TOAST ═══════════════════════════ -->
+<div class="toast hidden" id="toast"></div>
+
+<script src="/static/js/main.js"></script>
 </body>
 </html>

@@ -49,6 +49,8 @@ data/movielens/
 *.zip
 ml-latest-small.zip
 model_results.json
+*.db
+*.sqlite
 
 # Flask
 instance/
