@@ -142,45 +142,80 @@ def load_sample_data():
 
     print("Loading sample data into SQLite database...")
     sample_users = [
+        # pyrefly: ignore [unexpected-keyword]
         User(user_id=1, name="Alice",   email="alice@example.com"),
+        # pyrefly: ignore [unexpected-keyword]
         User(user_id=2, name="Bob",     email="bob@example.com"),
+        # pyrefly: ignore [unexpected-keyword]
         User(user_id=3, name="Charlie", email="charlie@example.com"),
+        # pyrefly: ignore [unexpected-keyword]
         User(user_id=4, name="Diana",   email="diana@example.com"),
+        # pyrefly: ignore [unexpected-keyword]
         User(user_id=5, name="Eve",     email="eve@example.com"),
     ]
     for u in sample_users:
         db.session.add(u)
 
     sample_movies = [
+        # pyrefly: ignore [unexpected-keyword]
         Item(item_id=1,  title="The Matrix",        genre="Sci-Fi",    year=1999, director="The Wachowskis",
+             # pyrefly: ignore [unexpected-keyword]
              description="A computer hacker learns about the true nature of reality and his role in the war against its controllers"),
+        # pyrefly: ignore [unexpected-keyword]
         Item(item_id=2,  title="Inception",         genre="Sci-Fi",    year=2010, director="Christopher Nolan",
+             # pyrefly: ignore [unexpected-keyword]
              description="A thief who steals corporate secrets through the use of dream-sharing technology"),
+        # pyrefly: ignore [unexpected-keyword]
         Item(item_id=3,  title="The Dark Knight",   genre="Action",    year=2008, director="Christopher Nolan",
+             # pyrefly: ignore [unexpected-keyword]
              description="Batman faces the Joker a criminal mastermind who seeks to undermine the people of Gotham City"),
+        # pyrefly: ignore [unexpected-keyword]
         Item(item_id=4,  title="Pulp Fiction",      genre="Crime",     year=1994, director="Quentin Tarantino",
+             # pyrefly: ignore [unexpected-keyword]
              description="The lives of two mob hitmen a boxer and a gangster intertwine in four tales of violence and redemption"),
+        # pyrefly: ignore [unexpected-keyword]
         Item(item_id=5,  title="Forrest Gump",      genre="Drama",     year=1994, director="Robert Zemeckis",
+             # pyrefly: ignore [unexpected-keyword]
              description="The life of a simple man who unwittingly influences several major historical events in 20th-century America"),
+        # pyrefly: ignore [unexpected-keyword]
         Item(item_id=6,  title="The Godfather",     genre="Crime",     year=1972, director="Francis Ford Coppola",
+             # pyrefly: ignore [unexpected-keyword]
              description="The aging patriarch of an organized crime dynasty transfers control to his reluctant son"),
+        # pyrefly: ignore [unexpected-keyword]
         Item(item_id=7,  title="Titanic",           genre="Romance",   year=1997, director="James Cameron",
+             # pyrefly: ignore [unexpected-keyword]
              description="A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious ill-fated Titanic"),
+        # pyrefly: ignore [unexpected-keyword]
         Item(item_id=8,  title="Avatar",            genre="Sci-Fi",    year=2009, director="James Cameron",
+             # pyrefly: ignore [unexpected-keyword]
              description="A paraplegic marine dispatched to the moon Pandora on a unique mission becomes torn between following orders and protecting the alien world"),
+        # pyrefly: ignore [unexpected-keyword]
         Item(item_id=9,  title="Star Wars",         genre="Sci-Fi",    year=1977, director="George Lucas",
+             # pyrefly: ignore [unexpected-keyword]
              description="Luke Skywalker joins forces with a Jedi Knight pilot and two droids to save the galaxy from the Empire"),
+        # pyrefly: ignore [unexpected-keyword]
         Item(item_id=10, title="Jurassic Park",     genre="Adventure", year=1993, director="Steven Spielberg",
+             # pyrefly: ignore [unexpected-keyword]
              description="During a preview tour a theme park suffers a major power breakdown that allows its cloned dinosaur exhibits to run amok"),
+        # pyrefly: ignore [unexpected-keyword]
         Item(item_id=11, title="The Shawshank Redemption", genre="Drama", year=1994, director="Frank Darabont",
+             # pyrefly: ignore [unexpected-keyword]
              description="Two imprisoned men bond over a number of years finding solace and eventual redemption through acts of common decency"),
+        # pyrefly: ignore [unexpected-keyword]
         Item(item_id=12, title="The Lord of the Rings", genre="Fantasy", year=2001, director="Peter Jackson",
+             # pyrefly: ignore [unexpected-keyword]
              description="A meek Hobbit and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth"),
+        # pyrefly: ignore [unexpected-keyword]
         Item(item_id=13, title="Interstellar",      genre="Sci-Fi",    year=2014, director="Christopher Nolan",
+             # pyrefly: ignore [unexpected-keyword]
              description="A team of explorers travel through a wormhole in space in an attempt to ensure humanity survival"),
+        # pyrefly: ignore [unexpected-keyword]
         Item(item_id=14, title="Gravity",           genre="Sci-Fi",    year=2013, director="Alfonso Cuarón",
+             # pyrefly: ignore [unexpected-keyword]
              description="Two astronauts work together to survive after an accident leaves them stranded in space"),
+        # pyrefly: ignore [unexpected-keyword]
         Item(item_id=15, title="The Silence of the Lambs", genre="Thriller", year=1991, director="Jonathan Demme",
+             # pyrefly: ignore [unexpected-keyword]
              description="A young FBI cadet must receive the help of an incarcerated cannibalistic serial killer to catch another serial killer"),
     ]
     for m in sample_movies:
@@ -557,6 +592,7 @@ def train_models():
         for user_id in dataset['users']:
             existing_user = User.query.get(user_id)
             if not existing_user:
+                # pyrefly: ignore [unexpected-keyword]
                 db.session.add(User(user_id=user_id, name=f"User_{user_id}", email=f"user_{user_id}@example.com"))
                 new_users_count += 1
         
@@ -566,10 +602,15 @@ def train_models():
             existing_item = Item.query.get(movie['movieId'])
             if not existing_item:
                 new_item = Item(
+                    # pyrefly: ignore [unexpected-keyword]
                     item_id=movie['movieId'],
+                    # pyrefly: ignore [unexpected-keyword]
                     title=movie['title_clean'],
+                    # pyrefly: ignore [unexpected-keyword]
                     genre=movie['genres'],
+                    # pyrefly: ignore [unexpected-keyword]
                     year=movie['year'],
+                    # pyrefly: ignore [unexpected-keyword]
                     description=f"Movie from {movie['year']} with genres: {movie['genres']}"
                 )
                 db.session.add(new_item)
@@ -635,13 +676,18 @@ def get_training_status():
 # Entry point
 # ══════════════════════════════════════════════════════════════════════════
 
+# Initialize database and models for both
+# python app.py and gunicorn app:app
+
+with app.app_context():
+    db.create_all()
+    load_sample_data()
+    _retrain_all()
+
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-        load_sample_data()
-        _retrain_all()
-        
     print("CineAI Recommendation System (SQL Persistence Edition) Ready!")
     print("=================================================================")
+
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
+
