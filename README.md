@@ -6,7 +6,7 @@
 https://movie-recommendation-system-ohbc.onrender.com
 
 📂 GitHub Repository:
-https://github.com/Dhanu0746/YOUR_REPOSITORY_NAME
+https://github.com/Dhanu0746/movie-recommendation-system.git
 
 ---
 
@@ -155,9 +155,9 @@ movie-recommendation-system/
 ### Clone Repository
 
 ```bash
-git clone https://github.com/Dhanu0746/YOUR_REPOSITORY_NAME.git
+git clone https://github.com/Dhanu0746/movie-recommendation-system.git
 
-cd YOUR_REPOSITORY_NAME
+cd movie-recommendation-system
 ```
 
 ### Create Virtual Environment
